@@ -43,112 +43,38 @@
  				btn = E('div', {
  					'class': 'btn cbi-button-positive',
  					'data-package': name,
-@@ -430,8 +433,7 @@ function handlePage(ev)
- 			E('a', { href: '#', click: handleReset }, _('Reset')), ')'
- 		];
+@@ -827,7 +830,8 @@ function handleInstall(ev)
+ 						'id': 'overwrite-cb',
+ 						'type': 'checkbox',
+ 						'name': 'overwrite',
+-						'disabled': isReadonlyView
++						'disabled': isReadonlyView,
++						'checked': true
+ 					}), ' ',
+ 					E('label', { 'for': 'overwrite-cb' }), ' ',
+ 					_('Allow overwriting conflicting package files')
+@@ -906,9 +910,9 @@ function handleConfig(ev)
+ 		if (L.hasSystemFeature('apk')) {
+                         files.push(base_dir + '/' + 'repositories.d/customfeeds.list',
+                                    base_dir + '/' + 'repositories.d/distfeeds.list'
+-                        )
++                        );
+                 } else {
+-                        files.push(base_dir + '.conf')
++                        files.push(base_dir + '.conf');
+                 }
  
--	cbi_update_table('#packages', currentDisplayRows.slice(offset, offset + 100),
--		placeholder);
-+	cbi_update_table('#packages', currentDisplayRows.slice(offset, offset + 100), placeholder);
- }
+ 		for (let i = 0; i < partials.length; i++) {
+@@ -958,7 +962,7 @@ function handleConfig(ev)
+ 					const data = {};
+ 					findParent(ev.target, '.modal').querySelectorAll('textarea[name]')
+ 						.forEach(function(textarea) {
+-							data[textarea.getAttribute('name')] = textarea.value
++							data[textarea.getAttribute('name')] = textarea.value;
+ 						});
  
- function handleMode(ev)
-@@ -540,8 +542,7 @@ function pkgStatus(pkg, vop, ver, info)
- 				info.install.push(repl);
- 				return E('span', {
- 					'class': 'label',
--					'data-tooltip': _('Requires update to %h %h')
--						.format(repl.name, repl.version)
-+					'data-tooltip': _('Requires update to %h %h').format(repl.name, repl.version)
- 				}, _('Needs upgrade'));
- 			}
- 
-@@ -549,8 +550,7 @@ function pkgStatus(pkg, vop, ver, info)
- 
- 			return E('span', {
- 				'class': 'label warning',
--				'data-tooltip': _('Require version %h %h,\ninstalled %h')
--					.format(vop, ver, pkg.version)
-+				'data-tooltip': _('Require version %h %h,\ninstalled %h').format(vop, ver, pkg.version)
- 			}, _('Version incompatible'));
- 		}
- 
-@@ -567,8 +567,7 @@ function pkgStatus(pkg, vop, ver, info)
- 
- 		return E('span', {
- 			'class': 'label warning',
--			'data-tooltip': _('Require version %h %h,\ninstalled %h')
--				.format(vop, ver, pkg.version)
-+			'data-tooltip': _('Require version %h %h,\ninstalled %h').format(vop, ver, pkg.version)
- 		}, _('Version incompatible'));
- 	}
- 	else {
-@@ -587,8 +586,8 @@ function renderDependencyItem(dep, info, flat)
- 
- 	for (let i = 0; dep.pkgs && i < dep.pkgs.length; i++) {
- 		const pkg = packages.installed.pkgs[dep.pkgs[i]] ||
--		          packages.available.pkgs[dep.pkgs[i]] ||
--		          { name: dep.name };
-+			packages.available.pkgs[dep.pkgs[i]] ||
-+			{ name: dep.name };
- 
- 		if (i > 0)
- 			li.appendChild(document.createTextNode(' | '));
-@@ -611,8 +610,7 @@ function renderDependencyItem(dep, info, flat)
- 
- 	if (!li.firstChild)
- 		li.appendChild(E('span', {},
--			[ dep.name, ' ',
--			  pkgStatus({ name: dep.name, missing: true }, vop, ver, info) ]));
-+			[ dep.name, ' ', pkgStatus({ name: dep.name, missing: true }, vop, ver, info) ]));
- 
- 	if (!flat) {
- 		const subdeps = renderDependencies(depends, info);
-@@ -657,16 +655,18 @@ function renderDependencies(depends, info, flat)
- 		const pkgs = [];
- 
- 		(packages.installed.providers[dep] || []).forEach(function(p) {
--			if (pkgs.indexOf(p.name) === -1) pkgs.push(p.name);
-+			if (pkgs.indexOf(p.name) === -1)
-+				pkgs.push(p.name);
- 		});
- 
- 		(packages.available.providers[dep] || []).forEach(function(p) {
--			if (pkgs.indexOf(p.name) === -1) pkgs.push(p.name);
-+			if (pkgs.indexOf(p.name) === -1)
-+				pkgs.push(p.name);
- 		});
- 
- 		info.seen[dep] = {
--			name:    dep,
--			pkgs:    pkgs,
-+			name: dep,
-+			pkgs: pkgs,
- 			version: [vop, ver]
- 		};
- 
-@@ -775,8 +775,7 @@ function handleInstall(ev)
- 	}
- 
- 	inst = E('p', [
--		_('Require approx. %1024mB size for %d package(s) to install.')
--			.format(totalsize, totalpkgs),
-+		_('Require approx. %1024mB size for %d package(s) to install.').format(totalsize, totalpkgs),
- 		' ',
- 		suggestsize ? _('Suggested translations require approx. %1024mB additional space.').format(suggestsize) : ''
- 	]);
-@@ -932,8 +931,8 @@ function handleConfig(ev)
- 				});
- 		}));
- 	}).then(function() {
--		const opkg_text = _('Below is a listing of the various configuration files used by <em>opkg</em>. Use <em>opkg.conf</em> for global settings and <em>customfeeds.conf</em> for custom repository entries. The configuration in the other files may be changed but is usually not preserved by <em>sysupgrade</em>.')
--		const apk_text = _('Below is a listing of the various configuration files used by <em>apk</em>. The configuration in the other files may be changed but is usually not preserved by <em>sysupgrade</em>.')
-+		const opkg_text = _('Below is a listing of the various configuration files used by <em>opkg</em>. Use <em>opkg.conf</em> for global settings and <em>customfeeds.conf</em> for custom repository entries. The configuration in the other files may be changed but is usually not preserved by <em>sysupgrade</em>.');
-+		const apk_text = _('Below is a listing of the various configuration files used by <em>apk</em>. The configuration in the other files may be changed but is usually not preserved by <em>sysupgrade</em>.');
- 		const body = [
- 			E('p', {}, L.hasSystemFeature('apk') ? apk_text : opkg_text)
- 		];
-@@ -1030,6 +1029,24 @@ function handleRemove(ev)
+ 					ui.showModal(_('%s Configuration').format(L.hasSystemFeature('apk') ? 'APK' : 'OPKG'), [
+@@ -1030,6 +1034,25 @@ function handleRemove(ev)
  	]);
  }
  
@@ -170,32 +96,12 @@
 +	});
 +}
 +
++
  function handlePkg(ev)
  {
  	return new Promise(function(resolveFn, rejectFn) {
-@@ -1045,9 +1062,28 @@ function handlePkg(ev)
- 		]);
- 
+@@ -1047,7 +1070,7 @@ function handlePkg(ev)
  		const argv = [ cmd ];
-+		const refreshLists = function(res) {
-+			const done = function() {
-+				if (ui.menu && ui.menu.flushCache)
-+					ui.menu.flushCache();
-+
-+				ui.hideModal();
-+				updateLists();
-+
-+				if (res.code !== 0)
-+					rejectFn(new Error(res.stderr || '%s error %d'.format(L.hasSystemFeature('apk') ? 'apk' : 'opkg', res.code)));
-+				else
-+					resolveFn(res);
-+			};
-+
-+			if (cmd === 'update' && res.code === 0)
-+				clearLuciIndexCache().then(done).catch(done);
-+			else
-+				done();
-+		};
  
  		if (cmd === 'remove')
 -			argv.push('--force-removal-of-dependent-packages')
@@ -203,61 +109,7 @@
  
  		if (rem && rem.checked)
  			argv.push('--autoremove');
-@@ -1067,33 +1103,30 @@ function handlePkg(ev)
- 			if (res.pkmcmd)
- 				dlg.appendChild(E('pre', [ res.pkmcmd ]));
- 
--			if (res.stdout)
--				dlg.appendChild(E('pre', [ res.stdout ]));
-+			const showModalFlag = (cmd !== 'update' && pkg) || res.stderr;
- 
--			if (res.stderr) {
--				dlg.appendChild(E('h5', _('Errors')));
--				dlg.appendChild(E('pre', { 'class': 'errors' }, [ res.stderr ]));
--			}
-+			if (showModalFlag) {
-+				if (res.stdout)
-+					dlg.appendChild(E('pre', [ res.stdout ]));
- 
--			if (res.code !== 0)
--				dlg.appendChild(E('p', _('The <em>%s %h</em> command failed with code <code>%d</code>.').format(L.hasSystemFeature('apk') ? 'apk' : 'opkg', cmd, (res.code & 0xff) || -1)));
-+				if (res.stderr) {
-+					dlg.appendChild(E('h5', _('Errors')));
-+					dlg.appendChild(E('pre', { 'class': 'errors' }, [ res.stderr ]));
- 
--			dlg.appendChild(E('div', { 'class': 'button-row' },
--				E('div', {
--					'class': 'btn',
--					'click': L.bind(function(res) {
--						if (ui.menu && ui.menu.flushCache)
--							ui.menu.flushCache();
-+				if (res.code !== 0)
-+					dlg.appendChild(E('p', _('The <em>%s %h</em> command failed with code <code>%d</code>.').format(L.hasSystemFeature('apk') ? 'apk' : 'opkg', cmd, (res.code & 0xff) || -1)));
- 
--						ui.hideModal();
--						updateLists();
--
--						if (res.code !== 0)
--							rejectFn(new Error(res.stderr || '%s error %d'.format(L.hasSystemFeature('apk') ? 'apk' : 'opkg', res.code)));
--						else
--							resolveFn(res);
--					}, this, res)
--				}, _('Dismiss'))));
-+				dlg.appendChild(E('div', { 'class': 'button-row' },
-+					E('div', {
-+						'class': 'btn',
-+						'click': L.bind(function(res) {
-+							refreshLists(res);
-+						}, this, res)
-+					}, _('Dismiss'))));
-+			}
-+			else {
-+				refreshLists(res);
-+			}
- 		}).catch(function(err) {
- 			ui.addNotification(null, E('p', _('Unable to execute <em>%s %s</em> command: %s').format(L.hasSystemFeature('apk') ? 'apk' : 'opkg', cmd, err)));
- 			ui.hideModal();
-@@ -1126,7 +1159,7 @@ function handleUpload(ev)
+@@ -1126,7 +1149,7 @@ function handleUpload(ev)
  					'data-package': path,
  					'click': function(ev) {
  						handlePkg(ev).finally(function() {
@@ -266,7 +118,7 @@
  						});
  					}
  				}, _('Install'))
-@@ -1188,6 +1221,90 @@ return view.extend({
+@@ -1188,6 +1211,90 @@ return view.extend({
  	},
  
  	render(listData) {
@@ -357,16 +209,24 @@
  		const query = decodeURIComponent(L.toArray(location.search.match(/\bquery=([^=]+)\b/))[1] || '');
  
  		const view = E([], [
-@@ -1228,7 +1345,7 @@ return view.extend({
+@@ -1220,7 +1327,7 @@ return view.extend({
  				E('div', {}, [
+ 					E('label', {'id': 'download-label'}, _('Download and install package') + ':'),
+ 					E('span', { 'class': 'control-group' }, [
+-						E('input', { 'type': 'text', 'name': 'install', 'placeholder': _('Package name or URL…'), 'keydown': function(ev) { if (ev.keyCode === 13) handleManualInstall(ev) }, 'disabled': isReadonlyView }),
++						E('input', { 'type': 'text', 'name': 'install', 'placeholder': _('Package name or URL…'), 'keydown': function(ev) { if (ev.keyCode === 13) handleManualInstall(ev); }, 'disabled': isReadonlyView }),
+ 						E('button', { 'class': 'btn cbi-button cbi-button-action', 'click': handleManualInstall, 'disabled': isReadonlyView }, [ _('OK') ])
+ 					])
+ 				]),
+@@ -1229,6 +1336,7 @@ return view.extend({
  					E('label', {'id': 'action-label'}, _('Actions') + ':'), ' ',
  					E('span', { 'class': 'control-group' }, [
--						E('button', { 'class': 'btn cbi-button-positive', 'data-command': 'update', 'click': handlePkg, 'disabled': isReadonlyView }, [ _('Update lists…') ]), ' ',
+ 						E('button', { 'class': 'btn cbi-button-positive', 'data-command': 'update', 'click': handlePkg, 'disabled': isReadonlyView }, [ _('Update lists…') ]), ' ',
 +						E('button', { 'class': 'btn cbi-button-negative', 'data-command': 'upgradeall', 'click': handlePkg, 'disabled': isReadonlyView }, [ _('Upgrade all…') ]), ' ',
  						E('button', { 'class': 'btn cbi-button-action', 'click': handleUpload, 'disabled': isReadonlyView }, [ _('Upload Package…') ]), ' ',
  						E('button', { 'class': 'btn cbi-button-neutral', 'click': handleConfig }, [ _('Configure %s').format(L.hasSystemFeature('apk') ? 'apk' : 'opkg') ])
  					])
-@@ -1314,7 +1431,16 @@ return view.extend({
+@@ -1314,7 +1422,16 @@ return view.extend({
  		]);
  
  		requestAnimationFrame(function() {
