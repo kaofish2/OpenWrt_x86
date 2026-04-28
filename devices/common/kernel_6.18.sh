@@ -41,7 +41,7 @@ cd ../../
 
 
 cd package
-rm -rf devel/kselftests-bpf  kernel/mt76 kernel/ath10k-ct
+rm -rf devel/kselftests-bpf  kernel/mt76 kernel/ath10k-ct 
 
 #libs/libnl/Makefile
 #wget -N https://patch-diff.githubusercontent.com/raw/openwrt/mt76/pull/1026.patch -P kernel/mt76/patches/
@@ -50,3 +50,5 @@ rm -rf devel/kselftests-bpf  kernel/mt76 kernel/ath10k-ct
 #wget -N https://raw.githubusercontent.com/mgz0227/openwrt/refs/heads/6.18-libnl/package/libs/libnl/Makefile -P libs/libnl/ 
 
 cd ../
+
+rm -rf package/kernel/ath10k-ct package/kernel/mt76
