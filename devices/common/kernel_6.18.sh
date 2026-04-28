@@ -24,19 +24,13 @@ cd -
 #wget -N https://raw.githubusercontent.com/immortalwrt-collections/lean-lede/refs/heads/lede/target/linux/x86/patches-6.18/996-intel-igc-i225-i226-disable-eee.patch -P target/linux/x86/patches-6.18/
 
 
-cd feeds/packages
-rm -rf libs/libmariadb
-git_clone_path libmaria https://github.com/graysky2/packages libs/libmariadb
-cd ../../
 
 
 
 cd feeds/packages
-rm -rf net/xtables-addons net/jool kernel/v4l2loopback libs/libpfring
+rm -rf net/xtables-addons net/jool kernel/v4l2loopback libs/libpfring libs/libmariadb
 
-git_clone_path master https://github.com/openwrt/packages net/jool kernel/v4l2loopback libs/libpfring
-git_clone_path 6.18-xt-addons https://github.com/graysky2/packages net/xtables-addons
-#wget -N https://raw.githubusercontent.com/graysky2/packages/c55afaa2bebca50a0e019a249c2748e7d7f745b7/kernel/ovpn-dco/Makefile -P kernel/ovpn-dco/
+git_clone_path master https://github.com/openwrt/packages net/jool kernel/v4l2loopback libs/libpfring net/xtables-addons libs/libmariadb
 
 cd ../../
 
@@ -47,12 +41,12 @@ cd ../../
 
 
 cd package
-rm -rf devel/kselftests-bpf  libs/libnl/Makefile kernel/mt76 kernel/ath10k-ct
+rm -rf devel/kselftests-bpf  kernel/mt76 kernel/ath10k-ct
 
-
+#libs/libnl/Makefile
 #wget -N https://patch-diff.githubusercontent.com/raw/openwrt/mt76/pull/1026.patch -P kernel/mt76/patches/
 #mv kernel/mt76/patches/1026.patch kernel/mt76/patches/002-fix-mt76-timer-compat.patch
 
-wget -N https://raw.githubusercontent.com/mgz0227/openwrt/refs/heads/6.18-libnl/package/libs/libnl/Makefile -P libs/libnl/ 
+#wget -N https://raw.githubusercontent.com/mgz0227/openwrt/refs/heads/6.18-libnl/package/libs/libnl/Makefile -P libs/libnl/ 
 
 cd ../
